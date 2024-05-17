@@ -1,76 +1,69 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class NumberBaseballGame {
 
-    private char[] computerNumber;
+  private static final List<Integer> numbers = new ArrayList<>(
+    Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9)
+  );
+  private static final int BALL_NUMBER = 3;
+  private Balls computerNumber;
 
-    private char[] userInputNumber;
+  private Balls userInputNumber;
 
-    private final StringBuilder sb;
+  private final InputView inputView;
 
-    private final InputView inputView;
-    private final ResultView resultView;
+  public NumberBaseballGame() {
+    this.inputView = new InputView();
+  }
 
-    private final Rule rule;
+  public void start() throws Exception {
+    init();
 
-    public NumberBaseballGame() {
-        this.computerNumber = new char[3];
-        this.userInputNumber = new char[3];
-        this.sb = new StringBuilder();
-        this.inputView = new InputView();
-        this.resultView = new ResultView();
-        this.rule = new Rule();
+    while (true) {
+      input();
+      gamePlay();
     }
+  }
 
-    public void start() throws Exception {
-        init();
+  private void init() {
+    computerNumber = getRandomNumber();
+  }
 
-        while (true) {
-            input();
-            gamePlay();
-        }
+  private Balls getRandomNumber() {
+    Collections.shuffle(numbers);
+    Ball[] result = new Ball[BALL_NUMBER];
+    for (int i = 0; i < BALL_NUMBER; i++) {
+      result[i] = new Ball(numbers.get(i));
     }
+    return new Balls(result);
+  }
 
-    private void init() {
-        computerNumber = getRandomNumber();
+  private void input() throws Exception {
+    this.userInputNumber = inputView.inputNumber();
+  }
+
+  private void gamePlay() throws Exception {
+    Rule rule = computerNumber.check(userInputNumber);
+    inputView.printResult(rule);
+
+    if (rule.isGameOver()) {
+      inputView.printGameOver();
+      String userInputYN = inputView.inputResetGame();
+      checkResetGame(userInputYN);
+      resetGame();
     }
+  }
 
-    private char[] getRandomNumber() {
-        List<Character> numbers = new ArrayList<>(
-                Arrays.asList('1', '2', '3', '4', '5', '6', '7', '8', '9'));
-
-        Random random = new Random();
-        for (int i = 0; i < 3; i++) {
-            int randomIndex = random.nextInt(9 - i);
-            computerNumber[i] = numbers.get(randomIndex);
-            numbers.remove(randomIndex);
-        }
-
-        return computerNumber;
+  private void checkResetGame(String userInputYN) {
+    if (userInputYN.equals("N")) {
+      System.exit(0);
     }
+  }
 
-    private void input() throws Exception {
-        this.userInputNumber = inputView.inputNumber(userInputNumber);
-    }
-
-    private void gamePlay() throws Exception {
-        String checkCount = rule.checkCount(computerNumber, userInputNumber, sb);
-        resultView.printResult(checkCount);
-
-        if (checkCount.equals(Status.GAME_OVER.getValue())) {
-            resultView.printGameOver();
-            char userInputYN = inputView.inputResetGame();
-            if (userInputYN == 'N') {
-                System.exit(0);
-            }
-            resetGame();
-        }
-    }
-
-    private void resetGame() {
-        init();
-    }
+  private void resetGame() {
+    init();
+  }
 }
