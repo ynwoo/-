@@ -1,3 +1,5 @@
+package ui;
+
 public class ResultView {
 
     public void printResult(String result) {
