@@ -1,8 +1,8 @@
-package game;
+package main.game;
 
-import ball.Ball;
-import ball.Balls;
-import config.Config;
+import main.ball.Ball;
+import main.ball.Balls;
+import main.config.Config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

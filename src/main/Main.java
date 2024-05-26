@@ -1,4 +1,6 @@
-import game.NumberBaseballGame;
+package main;
+
+import main.game.NumberBaseballGame;
 
 public class Main {
 

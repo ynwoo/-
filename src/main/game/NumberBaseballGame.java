@@ -1,9 +1,9 @@
-package game;
+package main.game;
 
-import ball.Balls;
-import config.Config;
-import ui.InputView;
-import ui.ResultView;
+import main.ball.Balls;
+import main.config.Config;
+import main.ui.InputView;
+import main.ui.ResultView;
 
 public class NumberBaseballGame {
 

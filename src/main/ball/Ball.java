@@ -1,4 +1,4 @@
-package ball;
+package main.ball;
 
 import java.util.Objects;
 

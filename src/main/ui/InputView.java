@@ -1,8 +1,8 @@
-package ui;
+package main.ui;
 
-import ball.Ball;
-import ball.Balls;
-import config.Config;
+import main.ball.Ball;
+import main.ball.Balls;
+import main.config.Config;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
